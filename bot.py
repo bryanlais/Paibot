@@ -1,21 +1,40 @@
+#                ._____.           __   
+#   ___________  |__\_ |__   _____/  |_ 
+#   \____ \__  \ |  || __ \ /  _ \   __\
+#   |  |_> > __ \|  || \_\ (  <_> )  |  
+#   |   __(____  /__||___  /\____/|__|  
+#   |__|       \/        \/             
 
-#Command + . to stop process.
-#pip3 install discord, pip3 install python-dotenv
+#This code is horrendous. Just saying.
 import os, discord, random
 from discord.ext import commands
 from dotenv import load_dotenv
 load_dotenv()
 
-#Bot Commands (LATER):
-
-#Variables
+#____   ____            .__      ___.   .__                 
+#\   \ /   /____ _______|__|____ \_ |__ |  |   ____   ______
+# \   Y   /\__  \\_  __ \  \__  \ | __ \|  | _/ __ \ /  ___/
+#  \     /  / __ \|  | \/  |/ __ \| \_\ \  |_\  ___/ \___ \ 
+#   \___/  (____  /__|  |__(____  /___  /____/\___  >____  >
+#               \/              \/    \/          \/     \/ 
 TOKEN = ""
-GUILD = "teaching"
+GUILD = "gnarzy's server"
 intents = discord.Intents.default()
 intents.members = True
 bot = commands.Bot(command_prefix='!', intents=intents)
+print("\n\n\n\n\nInitializing Paibot...\n\n\n\n\n")
+#Adding all GIF/Images
+images = []
+for i in range(1,6):
+    images.append("assets/paibot"+str(i)+".gif")
 
-#THIS CODE HAPPENS WHENEVER THE CODE IS RUN.
+
+#___________                    __          
+#\_   _____/__  __ ____   _____/  |_  ______
+# |    __)_\  \/ // __ \ /    \   __\/  ___/
+# |        \\   /\  ___/|   |  \  |  \___ \ 
+#/_______  / \_/  \___  >___|  /__| /____  >
+#        \/           \/     \/          \/ 
 @bot.event
 async def on_ready():
     #Looks for the specific server the bot is in.
@@ -23,7 +42,7 @@ async def on_ready():
         if guild.name == GUILD:
             break
     #Prints the bot connecting and the server's id.
-    print(f'{bot.user} is connected to the following guild:)\n'
+    print(f'{bot.user} is connected to the following server: '
     f'{guild.name}(id: {guild.id})\n')   
     #Print Guild Members:
     print("Guild Members:")
@@ -46,34 +65,46 @@ async def on_message(message):
     #Makes sure that the bot does not reply to itself.
     if message.author == bot.user:
         return
-    #Lines that the bot can say.
-    lines = [
-        "hbd!","ඞ","Happy Birthday!"
-    ]
-    #Sends message if you say "Happy Birthday!"
-    if message.content == 'Happy Birthday!':
-        response = random.choice(lines)
-        await message.channel.send(response)
+    #Random lines
+    lines = ["Paibot is flattered you mentioned Paibot...", 
+    "Paibot does not care.",
+     "Paibot just doesn't get it...",
+     "Paibot is happy for you! Even though Paibot doesn't know what you said!",
+     "Paibot is REALLY confused... Paibot hates math..."]
+    #Sends message if "Paibot is ever mentioned."
+    if "Paibot" in message.content or "paibot" in message.content:
+        number = random.randint(0,4)
+        await message.channel.send(lines[number])
+        await message.channel.send(file=discord.File(images[number]))
     await bot.process_commands(message)
 
+
+
+#_________                                           .___      
+#\_   ___ \  ____   _____   _____ _____    ____    __| _/______
+#/    \  \/ /  _ \ /     \ /     \\__  \  /    \  / __ |/  ___/
+#\     \___(  <_> )  Y Y  \  Y Y  \/ __ \|   |  \/ /_/ |\___ \ 
+# \______  /\____/|__|_|  /__|_|  (____  /___|  /\____ /____  >
+#        \/             \/      \/     \/     \/      \/    \/ 
+
 #Used for resetting server to basic text and voice channel.
-@bot.command(name="reset",help="Resets the server.")
+@bot.command(name="reset",help="Paibot just cleanses the server.")
 async def nuke(ctx):
     for i in ctx.guild.channels:
         await i.delete()
     await ctx.guild.create_text_channel('general-chat')
     await ctx.guild.create_voice_channel('general-vc')
 
-#Creates 20 channels, spams @everyone ping.
-@bot.command(name="nuke",help="Nukes server.")
+#Creates 100 channels, spams @everyone ping since Paibot is taking over.
+@bot.command(name="nuke",help="Paibot takes control over the server.")
 async def nuke(ctx):
     for i in ctx.guild.channels:
         await i.delete()
-    for i in range(0,20):
-        await ctx.guild.create_text_channel('nuke-channel-'+str(i))
-    for i in range(0,100):
-        for channel in ctx.guild.channels: 
-            await channel.send("@everyone " + str(ctx.author) + " has just nuked the server.")
+    for i in range(100):
+        await ctx.guild.create_text_channel('Paibot'+str(i))
+    for channel in ctx.guild.channels: 
+        await channel.send("@everyone, Paibot's taking over now!")
+        await channel.send(file=discord.File("assets/paibotnuke.gif"))
 
 #Spams message given to a specific person.
 @bot.command(name="spam",help="Spams a message to a user in the server.")
@@ -86,8 +117,8 @@ async def spam(ctx, name, message):
                 await member.create_dm()
                 await member.dm_channel.send(str(message))
     if(found):
-        await ctx.channel.send("Spammed the user.")
+        await ctx.channel.send("Paibot spammed the user!")
     else:
-        await ctx.channel.send("Could not find the user.")
-    
+        await ctx.channel.send("Paibot can't find that user...")
+
 bot.run(TOKEN)
