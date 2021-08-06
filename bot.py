@@ -59,7 +59,7 @@ async def on_ready():
 @bot.event
 async def on_member_join(member):
     await member.create_dm()
-    await member.dm_channel.send(f'Welcome {member.name}!')
+    await member.dm_channel.send(f'Paibot welcomes you, {member.name}!')
 
 
 @bot.event
@@ -98,6 +98,7 @@ async def help(ctx):
     embed.add_field(name="!reset", value="Used for resetting server to basic text and voice channel.",inline=False)
     embed.add_field(name="!nuke", value="Creates 100 channels, spams @everyone ping since Paibot is taking over.",inline=False)
     embed.add_field(name="!spam <user> <word>", value="Spams a word 5 times to a specific user.",inline=False)
+    embed.add_field(name="!paibot",value="If paibot hears it's name, paibout is bound to respond!")
     await member.create_dm()
     await member.dm_channel.send(embed=embed)
 
@@ -135,4 +136,15 @@ async def spam(ctx, name, message):
     else:
         await ctx.channel.send("Paibot can't find that user...")
 
+#Shuts down bot.
+@bot.command()
+async def shutdown(self,ctx):
+    print("shutdown")
+    try:
+        await self.bot.logout()
+    except:
+        print("EnvironmentError")
+        self.bot.clear()
+    else:
+        await ctx.send("You do not own this bot!")
 bot.run(TOKEN)
