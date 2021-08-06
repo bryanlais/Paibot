@@ -22,6 +22,8 @@ GUILD = "gnarzy's server"
 intents = discord.Intents.default()
 intents.members = True
 bot = commands.Bot(command_prefix='!', intents=intents)
+#Deletes Default Help Command
+bot.remove_command('help')
 print("\n\n\n\n\nInitializing Paibot...\n\n\n\n\n")
 #Adding all GIF/Images
 images = []
@@ -87,16 +89,28 @@ async def on_message(message):
 # \______  /\____/|__|_|  /__|_|  (____  /___|  /\____ /____  >
 #        \/             \/      \/     \/     \/      \/    \/ 
 
+#Used for help!
+@bot.command(pass_context=True)
+async def help(ctx):
+    member = ctx.message.author
+    embed = discord.Embed(colour = discord.Colour.light_gray())
+    embed.set_author(name="Paibot Help:")
+    embed.add_field(name="!reset", value="Used for resetting server to basic text and voice channel.",inline=False)
+    embed.add_field(name="!nuke", value="Creates 100 channels, spams @everyone ping since Paibot is taking over.",inline=False)
+    embed.add_field(name="!spam <user> <word>", value="Spams a word 5 times to a specific user.",inline=False)
+    await member.create_dm()
+    await member.dm_channel.send(embed=embed)
+
 #Used for resetting server to basic text and voice channel.
-@bot.command(name="reset",help="Paibot just cleanses the server.")
-async def nuke(ctx):
+@bot.command()
+async def reset(ctx):
     for i in ctx.guild.channels:
         await i.delete()
     await ctx.guild.create_text_channel('general-chat')
     await ctx.guild.create_voice_channel('general-vc')
 
 #Creates 100 channels, spams @everyone ping since Paibot is taking over.
-@bot.command(name="nuke",help="Paibot takes control over the server.")
+@bot.command()
 async def nuke(ctx):
     for i in ctx.guild.channels:
         await i.delete()
@@ -107,7 +121,7 @@ async def nuke(ctx):
         await channel.send(file=discord.File("assets/paibotnuke.gif"))
 
 #Spams message given to a specific person.
-@bot.command(name="spam",help="Spams a message to a user in the server.")
+@bot.command()
 async def spam(ctx, name, message):
     found = False
     for member in ctx.guild.members:
