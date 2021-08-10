@@ -7,6 +7,7 @@
 
 #This code is horrendous. Just saying.
 import os, discord, random
+from boto.s3.connection import S3Connection
 from discord.ext import commands
 from dotenv import load_dotenv
 load_dotenv()
@@ -17,7 +18,7 @@ load_dotenv()
 #  \     /  / __ \|  | \/  |/ __ \| \_\ \  |_\  ___/ \___ \ 
 #   \___/  (____  /__|  |__(____  /___  /____/\___  >____  >
 #               \/              \/    \/          \/     \/ 
-TOKEN = os.getenv('DISCORD_TOKEN')
+TOKEN = S3Connection(os.environ['DISCORD_TOKEN'])
 GUILD = "gnarzy's server"
 intents = discord.Intents.default()
 intents.members = True
