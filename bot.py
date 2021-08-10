@@ -17,7 +17,7 @@ load_dotenv()
 #  \     /  / __ \|  | \/  |/ __ \| \_\ \  |_\  ___/ \___ \ 
 #   \___/  (____  /__|  |__(____  /___  /____/\___  >____  >
 #               \/              \/    \/          \/     \/ 
-TOKEN = ""
+TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = "gnarzy's server"
 intents = discord.Intents.default()
 intents.members = True
